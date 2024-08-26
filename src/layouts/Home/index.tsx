@@ -9,18 +9,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import GridItem from "../components/GridItem";
+import GridItem from "@/components/GridItem";
 import { format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import FlexRow from "../components/FlexRow";
-import ChangeAccountForm from "../components/ChangeAccountForm";
-import { Plan } from "../types/user";
+import FlexRow from "@/components/FlexRow";
+import ChangeAccountModal from "./ChangeAccountModal";
+import { Plan } from "@/types/user";
 
 const Home = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const { isLoading, data: accountInfo } = useQuery<Plan>({
+  const { isLoading, data: planInfo } = useQuery<Plan>({
     queryKey: ["myPlan"],
     queryFn: () =>
       fetch("https://66cc36014290b1c4f19c5696.mockapi.io/my-plan/1").then(
@@ -62,19 +62,16 @@ const Home = () => {
               ? Array.from({ length: 7 }, (_, k) => (
                   <Skeleton key={k} variant="rounded" height={30} />
                 ))
-              : accountInfo && (
+              : planInfo && (
                   <>
                     <GridItem
                       title="Creation date"
-                      value={format(
-                        new Date(accountInfo.createdAt),
-                        "yyyy-MM-dd"
-                      )}
+                      value={format(new Date(planInfo.createdAt), "yyyy-MM-dd")}
                     />
                     <GridItem
                       title="Investment amount"
-                      value={accountInfo.investmentAmount}
-                      currency={accountInfo.currency}
+                      value={planInfo.investmentAmount}
+                      currency={planInfo.currency}
                       subtext={"(per month)"}
                       action={
                         <Button color="inherit" variant="outlined">
@@ -84,7 +81,7 @@ const Home = () => {
                     />
                     <GridItem
                       title="Account number"
-                      value={accountInfo.accountNumber}
+                      value={planInfo.accountNumber}
                       action={
                         <IconButton
                           color="primary"
@@ -97,17 +94,17 @@ const Home = () => {
                     />
                     <GridItem
                       title="Accumulated investment amount"
-                      value={accountInfo.accmulatedAmount}
-                      currency={accountInfo.currency}
+                      value={planInfo.accmulatedAmount}
+                      currency={planInfo.currency}
                     />
                     <GridItem
                       title="Charge date"
                       value={`${format(
-                        new Date(accountInfo.chargeDate),
+                        new Date(planInfo.chargeDate),
                         "d"
                       )} of the month`}
                       subtext={`(Next payment date: ${format(
-                        new Date(accountInfo.chargeDate),
+                        new Date(planInfo.chargeDate),
                         "yyyy-MM-dd"
                       )})`}
                       action={
@@ -118,8 +115,8 @@ const Home = () => {
                     />
                     <GridItem
                       title="Current market value"
-                      value={accountInfo.currentValue}
-                      currency={accountInfo.currency}
+                      value={planInfo.currentValue}
+                      currency={planInfo.currency}
                       action={
                         <Button color="inherit" variant="outlined">
                           Redemption
@@ -128,7 +125,7 @@ const Home = () => {
                     />
                     <GridItem
                       title="Status"
-                      value={accountInfo.status}
+                      value={planInfo.status}
                       action={
                         <Button color="inherit" variant="outlined">
                           Suspension of investment
@@ -146,8 +143,8 @@ const Home = () => {
         </FlexRow>
       </Box>
       {showForm && (
-        <ChangeAccountForm
-          currentAccount={accountInfo?.accountNumber}
+        <ChangeAccountModal
+          currentAccount={planInfo?.accountNumber}
           open={showForm}
           onClose={() => setShowForm(false)}
         />

@@ -2,7 +2,7 @@ import { faEarth, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppBar, Container, IconButton, useTheme } from "@mui/material";
 import { FC } from "react";
-import FlexRow from "../components/FlexRow";
+import FlexRow from "@/components/FlexRow";
 
 const Navigation: FC = () => {
   const theme = useTheme();

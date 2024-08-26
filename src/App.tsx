@@ -1,5 +1,5 @@
-import Navigation from "./layouts/Navigation";
-import Home from "./layouts/Home";
+import Navigation from "@/layouts/Navigation";
+import Home from "@/layouts/Home";
 import { Container } from "@mui/material";
 
 const App = () => {

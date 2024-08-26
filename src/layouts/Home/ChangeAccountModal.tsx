@@ -1,3 +1,5 @@
+import { FC, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Box,
   Button,
@@ -8,18 +10,16 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { FC, useEffect, useState } from "react";
-import FlexRow from "./FlexRow";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Account } from "../types/user";
+import FlexRow from "@/components/FlexRow";
+import { Account } from "@/types/user";
 
-interface IChangeAccountForm {
+interface IChangeAccountModal {
   open: boolean;
   onClose: () => void;
   currentAccount?: string;
 }
 
-const ChangeAccountForm: FC<IChangeAccountForm> = ({
+const ChangeAccountModal: FC<IChangeAccountModal> = ({
   open,
   onClose,
   currentAccount,
@@ -39,6 +39,7 @@ const ChangeAccountForm: FC<IChangeAccountForm> = ({
     mutate: onSave,
   } = useMutation({
     mutationFn: () => {
+      // simulate api callback in 1s
       return new Promise((resolve) => setTimeout(() => resolve(1), 1000));
     },
   });
@@ -112,4 +113,4 @@ const ChangeAccountForm: FC<IChangeAccountForm> = ({
   );
 };
 
-export default ChangeAccountForm;
+export default ChangeAccountModal;
